@@ -1,0 +1,33 @@
+{
+  "name": "a2v-editor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "fabric": "^6.5.1",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.8.69",
+    "pinia": "^2.3.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "happy-dom": "^15.11.7",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.3",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8",
+    "vue-tsc": "^2.2.0"
+  }
+}
