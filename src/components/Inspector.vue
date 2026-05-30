@@ -22,15 +22,10 @@ function deleteAnnotation() {
 </script>
 
 <template>
-<<<<<<< Updated upstream
-  <div class="w-[240px] bg-gray-50 border-l border-gray-200 flex flex-col shrink-0">
-    <div class="px-4 py-3 font-semibold text-sm border-b border-gray-200 text-gray-700">Properties</div>
-=======
   <div class="w-[240px] bg-slate-900 border-l border-slate-800 flex flex-col shrink-0">
     <div class="px-4 py-3 font-semibold text-sm border-b border-slate-800 text-slate-100">
       Properties
     </div>
->>>>>>> Stashed changes
 
     <div v-if="!store.selectedOverlay" class="p-6 text-center text-slate-500 text-sm">
       No object selected
@@ -43,30 +38,6 @@ function deleteAnnotation() {
       </div>
 
       <div>
-<<<<<<< Updated upstream
-        <label class="text-[11px] font-medium text-gray-500 uppercase">X</label>
-        <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" :value="Math.round(store.selectedOverlay.x)" @input="update('x', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-      </div>
-
-      <div>
-        <label class="text-[11px] font-medium text-gray-500 uppercase">Y</label>
-        <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" :value="Math.round(store.selectedOverlay.y)" @input="update('y', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-      </div>
-
-      <div>
-        <label class="text-[11px] font-medium text-gray-500 uppercase">Width</label>
-        <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" :value="Math.round(store.selectedOverlay.width)" @input="update('width', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-      </div>
-
-      <div>
-        <label class="text-[11px] font-medium text-gray-500 uppercase">Height</label>
-        <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" :value="Math.round(store.selectedOverlay.height)" @input="update('height', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-      </div>
-
-      <div>
-        <label class="text-[11px] font-medium text-gray-500 uppercase">Opacity</label>
-        <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" min="0" max="1" step="0.1" :value="store.selectedOverlay.opacity" @input="update('opacity', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-=======
         <label class="text-[11px] font-medium text-slate-400 uppercase">X</label>
         <input
           class="w-full px-2 py-1 text-sm bg-slate-800 border border-slate-700 text-slate-200 rounded focus:outline-none focus:border-blue-500 transition-colors"
@@ -117,19 +88,10 @@ function deleteAnnotation() {
           :value="store.selectedOverlay.opacity"
           @input="update('opacity', parseFloat(($event.target as HTMLInputElement).value) || 0)"
         />
->>>>>>> Stashed changes
       </div>
 
       <template v-if="store.selectedOverlay.type === OverlayType.TEXT">
         <div>
-<<<<<<< Updated upstream
-          <label class="text-[11px] font-medium text-gray-500 uppercase">Font Size</label>
-          <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="number" :value="(store.selectedOverlay as any).fontSize" @input="update('fontSize', parseFloat(($event.target as HTMLInputElement).value) || 0)" />
-        </div>
-        <div>
-          <label class="text-[11px] font-medium text-gray-500 uppercase">Color</label>
-          <input class="w-full px-2 py-1 text-sm border border-gray-300 rounded" type="text" :value="(store.selectedOverlay as any).color" @input="update('color', ($event.target as HTMLInputElement).value)" />
-=======
           <label class="text-[11px] font-medium text-slate-400 uppercase">Font Size</label>
           <input
             class="w-full px-2 py-1 text-sm bg-slate-800 border border-slate-700 text-slate-200 rounded focus:outline-none focus:border-blue-500 transition-colors"
@@ -146,7 +108,6 @@ function deleteAnnotation() {
             :value="(store.selectedOverlay as any).color"
             @input="update('color', ($event.target as HTMLInputElement).value)"
           />
->>>>>>> Stashed changes
         </div>
       </template>
 

@@ -267,19 +267,6 @@ function addOverlayToFabric(overlay: AnyOverlay) {
     }
     case OverlayType.HIGHLIGHT: {
       const h = overlay as AnyOverlay & { color: string; points: Point[] }
-<<<<<<< Updated upstream
-      obj = new Path(
-        `M ${h.points.map((p) => `${p.x * scale} ${p.y * scale}`).join(' L ')}`,
-        {
-          stroke: h.color,
-          strokeWidth: 12 * scale,
-          opacity: 0.3,
-          fill: undefined,
-          selectable: false,
-          evented: false,
-        },
-      )
-=======
       const strokeWidth = (overlay as any).strokeWidth || 12
       obj = new Path(`M ${h.points.map((p) => `${p.x * scale} ${p.y * scale}`).join(' L ')}`, {
         stroke: h.color,
@@ -289,7 +276,6 @@ function addOverlayToFabric(overlay: AnyOverlay) {
         selectable: true,
         evented: true,
       })
->>>>>>> Stashed changes
       break
     }
     case OverlayType.IMAGE:
@@ -396,15 +382,6 @@ watch(() => store.pageOverlays, () => {
   syncOverlaysToFabric()
 }, { deep: true })
 
-<<<<<<< Updated upstream
-watch(() => store.tool, (t) => {
-  if (fabricCanvas) {
-    fabricCanvas.selection = t === 'select'
-    fabricCanvas.isDrawingMode = t === 'draw'
-    fabricCanvas.defaultCursor = t === 'select' ? 'default' : 'crosshair'
-  }
-})
-=======
 watch(
   () => store.tool,
   (t) => {
@@ -443,7 +420,6 @@ watch(
     }
   },
 )
->>>>>>> Stashed changes
 
 function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'Delete' || e.key === 'Backspace') {

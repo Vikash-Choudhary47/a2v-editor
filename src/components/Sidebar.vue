@@ -13,15 +13,11 @@ const store = useEditorStore()
         v-for="pageNum in store.totalPages"
         :key="pageNum"
         class="p-2 rounded-md cursor-pointer border-2 transition-colors"
-<<<<<<< Updated upstream
-        :class="pageNum === store.currentPage ? 'border-blue-500 bg-blue-50' : 'border-transparent hover:border-gray-300'"
-=======
         :class="
           pageNum === store.currentPage
             ? 'border-blue-500 bg-blue-500/10'
             : 'border-transparent hover:border-slate-700'
         "
->>>>>>> Stashed changes
         @click="store.setCurrentPage(pageNum)"
       >
         <PageThumbnail :pageNumber="pageNum" />

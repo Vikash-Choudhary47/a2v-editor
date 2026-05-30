@@ -127,11 +127,9 @@ function handleSaveSignature(dataUrl: string) {
     v-if="!store.pdfDocument"
     class="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950"
   >
-    <!-- Animated background glow -->
     <div
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-500/10 blur-[120px] rounded-full w-96 h-96 animate-pulse pointer-events-none"
     />
-    <!-- Secondary ambient glow -->
     <div
       class="absolute top-1/3 left-1/3 bg-indigo-500/10 blur-[100px] rounded-full w-80 h-80 animate-[pulse_4s_infinite] pointer-events-none"
     />
@@ -139,7 +137,6 @@ function handleSaveSignature(dataUrl: string) {
     <div
       class="relative z-10 text-center bg-slate-900/60 backdrop-blur-xl border border-slate-800 shadow-2xl rounded-2xl p-10 max-w-lg w-full mx-4 transition-all duration-500 hover:border-indigo-500/30 animate-fade-in-up"
     >
-      <!-- Floating Logo / Icon -->
       <div
         class="mx-auto mb-6 flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30"
         style="animation: float 3s ease-in-out infinite;"
@@ -211,9 +208,7 @@ function handleSaveSignature(dataUrl: string) {
       @open-signature="showSignatureModal = true" 
       @export="handleExport" 
     />
-
     <div class="flex flex-1 overflow-hidden relative">
-      <!-- Sidebar: visible on desktop, toggled on mobile -->
       <div
         :class="store.showSidebar ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
         class="absolute md:relative z-30 h-full transition-transform duration-200"
@@ -223,7 +218,6 @@ function handleSaveSignature(dataUrl: string) {
 
       <CanvasView />
 
-      <!-- Inspector: visible on desktop, bottom drawer on mobile -->
       <div
         :class="[
           store.showInspector
@@ -237,7 +231,6 @@ function handleSaveSignature(dataUrl: string) {
       </div>
     </div>
 
-    <!-- Mobile toggle buttons -->
     <div class="fixed bottom-4 left-4 z-40 flex flex-col gap-2 md:hidden">
       <button
         class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center shadow-lg hover:bg-slate-700 transition-colors"
@@ -260,15 +253,6 @@ function handleSaveSignature(dataUrl: string) {
       </button>
     </div>
 
-<<<<<<< Updated upstream
-    <div v-if="store.isLoading" class="fixed inset-0 bg-white/70 flex items-center justify-center z-50">
-      <div class="w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
-    </div>
-
-    <div v-if="store.error" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-red-50 text-red-600 px-6 py-3 rounded-lg border border-red-200 flex items-center gap-3 z-50 shadow-sm">
-      <span class="text-sm">{{ store.error }}</span>
-      <button class="text-sm font-medium hover:text-red-800" @click="store.setError(null)">Dismiss</button>
-=======
     <div
       v-if="store.isLoading"
       class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-50"
@@ -284,14 +268,10 @@ function handleSaveSignature(dataUrl: string) {
       <button class="text-sm font-medium hover:text-red-200 transition-colors" @click="store.setError(null)">
         Dismiss
       </button>
->>>>>>> Stashed changes
     </div>
-
-    <!-- Signature Pad Modal -->
     <SignatureModal
       v-if="showSignatureModal"
       @close="showSignatureModal = false"
       @save="handleSaveSignature"
     />
-  </div>
-</template>
+  </div> </template>
