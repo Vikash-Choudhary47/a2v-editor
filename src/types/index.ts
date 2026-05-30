@@ -5,6 +5,7 @@ export enum ToolType {
   HIGHLIGHT = 'highlight',
   IMAGE = 'image',
   SIGNATURE = 'signature',
+  PAN = 'pan',
 }
 
 export enum OverlayType {

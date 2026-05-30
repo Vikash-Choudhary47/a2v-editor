@@ -6,10 +6,12 @@ import { OverlayEngine } from '../core/overlays/OverlayEngine'
 import { HistoryManager } from '../core/history/HistoryManager'
 import type { Command } from '../commands/base'
 
+
 const overlayEngine = new OverlayEngine()
 
 export const useEditorStore = defineStore('editor', () => {
   const pdfDocument = ref<PdfDocument | null>(null)
+  const originalFile = ref<File | null>(null)
   const selectedObjectId = ref<string | null>(null)
   const selectedIds = ref<string[]>([])
   const zoom = ref(1)
@@ -18,6 +20,8 @@ export const useEditorStore = defineStore('editor', () => {
   const isDirty = ref(false)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const showSidebar = ref(true)
+  const showInspector = ref(false)
 
   const historyManager = new HistoryManager()
 
@@ -40,8 +44,9 @@ export const useEditorStore = defineStore('editor', () => {
     currentPageData.value?.overlays ?? [],
   )
 
-  function setDocument(doc: PdfDocument) {
+  function setDocument(doc: PdfDocument, file: File) {
     pdfDocument.value = doc
+    originalFile.value = file
     currentPage.value = 1
     zoom.value = 1
     isDirty.value = false
@@ -50,6 +55,7 @@ export const useEditorStore = defineStore('editor', () => {
 
   function clearDocument() {
     pdfDocument.value = null
+    originalFile.value = null
     selectedObjectId.value = null
     selectedIds.value = []
     zoom.value = 1
@@ -133,27 +139,42 @@ export const useEditorStore = defineStore('editor', () => {
     tool.value = t
   }
 
+  function toggleSidebar() {
+    showSidebar.value = !showSidebar.value
+  }
+
+  function toggleInspector() {
+    showInspector.value = !showInspector.value
+  }
+
+  // Reactive history state for toolbar reactivity
+  const undoStackSize = ref(0)
+  const redoStackSize = ref(0)
+
+  function updateHistoryState() {
+    undoStackSize.value = historyManager.getUndoCount()
+    redoStackSize.value = historyManager.getRedoCount()
+  }
+
   function executeCommand(command: Command) {
     historyManager.execute(command)
+    updateHistoryState()
   }
 
   function undo() {
     const cmd = historyManager.undo()
     if (cmd) isDirty.value = true
+    updateHistoryState()
   }
 
   function redo() {
     const cmd = historyManager.redo()
     if (cmd) isDirty.value = true
+    updateHistoryState()
   }
 
-  function canUndo(): boolean {
-    return historyManager.canUndo()
-  }
-
-  function canRedo(): boolean {
-    return historyManager.canRedo()
-  }
+  const canUndo = computed(() => undoStackSize.value > 0)
+  const canRedo = computed(() => redoStackSize.value > 0)
 
   function setLoading(v: boolean) { isLoading.value = v }
   function setError(e: string | null) { error.value = e }
@@ -161,6 +182,7 @@ export const useEditorStore = defineStore('editor', () => {
 
   return {
     pdfDocument,
+    originalFile,
     selectedObjectId,
     selectedIds,
     zoom,
@@ -195,6 +217,10 @@ export const useEditorStore = defineStore('editor', () => {
     redo,
     canUndo,
     canRedo,
+    showSidebar,
+    showInspector,
+    toggleSidebar,
+    toggleInspector,
     setLoading,
     setError,
     setDirty,

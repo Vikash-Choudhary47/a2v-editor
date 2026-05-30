@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib'
-import type { PdfDocument, AnyOverlay } from '../../types'
+import type { PdfDocument, AnyOverlay, Point } from '../../types'
 import { OverlayType } from '../../types'
 
 export class PdfExporter {
@@ -19,7 +19,22 @@ export class PdfExporter {
     }
 
     const pdfBytes = await pdfDoc.save()
-    return new Blob([pdfBytes], { type: 'application/pdf' })
+    return new Blob([pdfBytes as any], { type: 'application/pdf' })
+  }
+
+  private hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const cleanHex = hex.replace('#', '')
+    if (cleanHex.length === 3) {
+      const r = parseInt(cleanHex[0] + cleanHex[0], 16) / 255
+      const g = parseInt(cleanHex[1] + cleanHex[1], 16) / 255
+      const b = parseInt(cleanHex[2] + cleanHex[2], 16) / 255
+      return { r: isNaN(r) ? 0 : r, g: isNaN(g) ? 0 : g, b: isNaN(b) ? 0 : b }
+    }
+    const num = parseInt(cleanHex, 16)
+    const r = ((num >> 16) & 0xff) / 255
+    const g = ((num >> 8) & 0xff) / 255
+    const b = (num & 0xff) / 255
+    return { r: isNaN(r) ? 0 : r, g: isNaN(g) ? 0 : g, b: isNaN(b) ? 0 : b }
   }
 
   private async renderOverlay(
@@ -33,6 +48,26 @@ export class PdfExporter {
     const y = pageHeight - overlay.y * 1 - overlay.height
 
     switch (overlay.type) {
+      case OverlayType.HIGHLIGHT: {
+        const h = overlay as AnyOverlay & { color: string; points: Point[] }
+        if (!h.points || h.points.length < 2) break
+
+        const strokeWidth = (overlay as any).strokeWidth || 12
+        const color = this.hexToRgb(h.color || '#ffff00')
+
+        for (let i = 0; i < h.points.length - 1; i++) {
+          const p1 = h.points[i]
+          const p2 = h.points[i + 1]
+          page.drawLine({
+            start: { x: p1.x, y: pageHeight - p1.y },
+            end: { x: p2.x, y: pageHeight - p2.y },
+            thickness: strokeWidth,
+            color: rgb(color.r, color.g, color.b),
+            opacity: overlay.opacity,
+          })
+        }
+        break
+      }
       case OverlayType.TEXT: {
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
         page.drawText((overlay as AnyOverlay & { text: string }).text, {

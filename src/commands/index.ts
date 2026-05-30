@@ -1,4 +1,5 @@
 export { AddTextCommand } from './AddTextCommand'
+export { AddOverlayCommand } from './AddOverlayCommand'
 export { MoveObjectCommand } from './MoveObjectCommand'
 export { DeleteObjectCommand } from './DeleteObjectCommand'
 export type { Command } from './base'
