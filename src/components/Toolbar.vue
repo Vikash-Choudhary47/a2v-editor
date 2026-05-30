@@ -90,7 +90,7 @@ function onToolClick(type: ToolType) {
         :disabled="!store.canRedo"
         @click="store.redo()"
       >
-        ↪
+        ↩
       </button>
     </div>
 

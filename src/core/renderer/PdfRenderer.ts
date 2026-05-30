@@ -12,6 +12,7 @@ export class PdfRenderer {
   private textLayerCache = new Map<string, HTMLElement>()
 
   async loadDocument(file: File): Promise<PdfDocument> {
+    this.destroy()
     const arrayBuffer = await file.arrayBuffer()
     this.doc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
 

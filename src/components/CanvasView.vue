@@ -174,7 +174,7 @@ async function renderPdfPage() {
 
   try {
     const rendered = await renderer.renderPage(store.currentPage, store.zoom)
-    const img = await FabricImage.fromURL(rendered.toDataURL(), { crossOrigin: 'anonymous' })
+    const img = await FabricImage.fromURL(rendered.toDataURL())
 
     if (pdfBgImage) fabricCanvas.remove(pdfBgImage)
     img.set({ left: 0, top: 0, selectable: false, evented: false })
@@ -184,6 +184,7 @@ async function renderPdfPage() {
     fabricCanvas.renderAll()
   } catch (err) {
     console.error('Render error:', err)
+    store.setError('Failed to render PDF page')
   }
 }
 
@@ -281,7 +282,7 @@ function addOverlayToFabric(overlay: AnyOverlay) {
     case OverlayType.IMAGE:
     case OverlayType.SIGNATURE: {
       const img = overlay as AnyOverlay & { src: string }
-      FabricImage.fromURL(img.src, { crossOrigin: 'anonymous' }).then((fimg) => {
+      FabricImage.fromURL(img.src).then((fimg) => {
         fimg.set({
           left: overlay.x * scale,
           top: overlay.y * scale,
@@ -292,6 +293,8 @@ function addOverlayToFabric(overlay: AnyOverlay) {
         setObjId(fimg, overlay.id)
         fabricCanvas!.add(fimg)
         fabricCanvas!.renderAll()
+      }).catch((err) => {
+        console.error('Error loading overlay image:', err)
       })
       return
     }
@@ -368,6 +371,16 @@ function addTextAt(x: number, y: number) {
   fabricCanvas.setActiveObject(textbox)
   fabricCanvas.renderAll()
 }
+
+watch(() => store.pdfDocument, () => {
+  if (pdfBgImage) {
+    fabricCanvas?.remove(pdfBgImage)
+    pdfBgImage = null
+  }
+  fabricCanvas?.clear()
+  fabricCanvas!.backgroundColor = '#0f172a'
+  renderPdfPage()
+}, { immediate: false })
 
 watch(() => store.zoom, () => {
   renderPdfPage()
